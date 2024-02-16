@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Producer>
+
+@{
+    ViewData["Title"] = "List of Producers";
+}
+
+<h1 style="color:#F5821E"> Welcome to Producers View</h1>
+<div class="row" style="color: white; border: 2px solid  #F5821E;padding:1rem;">
+    <div class="col-md-8 offset-md-2">
+
+        <table class="table" style="color:white; width:100%">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.ProfilePictureURL)</th>
+                    <th>@Html.DisplayNameFor(model => model.FullName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Bio)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <img class="rounded-circle" src="@item.ProfilePictureURL" alt="@item.FullName" style="max-width: 150px" />
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Bio)
+                        </td>
+                        <td class="align-middle" style="display:flex; margin:1rem;gap:20px;">
+                            <a class=" btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i> </a>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+                            {
+                                <a class=" btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i> </a> 
+
+                                <a class=" btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i> </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+                                {
+<div style="position: fixed; right:60px;bottom:25px;" class="text-white">
+    <a asp-action="Create" class="btn "><i class="bg-info bi-plus-circle" style="color:white; background-color:#F5821E"></i>Add New</a>
+
+</div>
+                                }

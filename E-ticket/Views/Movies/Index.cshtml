@@ -1,0 +1,121 @@
+﻿@model IEnumerable<Movie>
+
+@{
+    ViewData["Title"] = "List of Cinemas";
+}
+<style>
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .card-body {
+        flex-grow: 1;
+    }
+
+  
+
+    .card-text {
+        display: flex;
+      
+    }
+
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .card:hover {
+            transform: scale(1.05); /* Adjust the scale factor for the desired zoom effect */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Adjust the gap between cards as needed */
+    }
+
+    a.d-block{
+        text-decoration:none;
+    }
+    
+</style>
+
+<h1 style="color:#F5821E;"> Welcome to Cinemas View</h1>
+<form class="form-inline" asp-controller="Movies" asp-action="Filter" style="margin:1rem;">
+    <div class="input-group" style="width:70%;">
+        <input name="searchString" type="text" class="form-control" placeholder="Search for a movie..." aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+    </div>
+</form>
+<div class="flex-container">
+    @foreach (var item in Model)
+    {
+        <div>
+        <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.Id" class="d-block">
+            
+                <div class="card" style="width: 340px;">
+                    <div class="row g-0">
+                    <div>
+                        <div class="card-header text-white" style="background-color: #F5821E; display:flex; gap:10px;">
+                            <h5 class="card-title">
+                                @item.Name  
+                            </h5>
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+                                {
+                                <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                }
+                            </div>
+
+                    </div>
+                    <div class="col-md-6" style="width:100%;" >
+                        <img src="@item.ImageURL" alt="@item.Name" style="width: 100%" />
+                    </div>
+                    <div class="col-md-6" style="width:100%;">
+                        <div class="card-body" style="padding:1rem 10px;" style="background-color: gray;">
+                          
+                            <p class="card-text"><b>Start Date: </b>@item.StartDate.ToString("dd MMM yy")</p>
+                            <p class="card-text"><b>End Date: </b>@item.EndDate.ToString("dd MMM yy")</p>
+                            <p class="card-text ">
+                                <b>Status: </b>
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                {
+                                    <span class="badge bg-success text-white">AVAILABLE</span>
+                                }
+                                else if (DateTime.Now > item.EndDate)
+                                {
+                                    <span class="badge bg-danger text-white">EXPIRED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">UPCOMING</span>
+                                }
+                            </p>
+
+                        </div>
+                    </div>
+                 
+                    <div class="card-footer" >
+                        <p class="card-text" style="gap:20px;">
+                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
+                                <i class="bi bi-eye-fill"></i> Details
+                            </a>
+
+                                <a class="btn btn-success"
+                               asp-controller="Orders"
+                               asp-action="AddItemToShoppingCart"
+                               asp-route-id="@item.Id" >
+                                <i class="bi bi-cart-plus"></i> @item.Price.ToString("c")
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+      
+        
+    }
+</div>
+
