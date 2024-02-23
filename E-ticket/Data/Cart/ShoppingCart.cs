@@ -80,27 +80,27 @@ namespace E_ticket.Data.Cart
             _context.ShoppingCartItems.RemoveRange(items);
             await _context.SaveChangesAsync();
         }
-       /* public void AddItemToCart(Movie movie)
-        {
-            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Movie.Id == movie.Id && n.ShoppingCartId == ShoppingCartId);
+        /* public void AddItemToCart(Movie movie)
+         {
+             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Movie.Id == movie.Id && n.ShoppingCartId == ShoppingCartId);
 
-            if (shoppingCartItem == null)
-            {
-                shoppingCartItem = new ShoppingCartItem()
-                {
-                    ShoppingCartId = ShoppingCartId, // Set the ShoppingCartId here
-                    Movie = movie,
-                    Amount = 1
-                };
+             if (shoppingCartItem == null)
+             {
+                 shoppingCartItem = new ShoppingCartItem()
+                 {
+                     ShoppingCartId = ShoppingCartId, // Set the ShoppingCartId here
+                     Movie = movie,
+                     Amount = 1
+                 };
 
-                _context.ShoppingCartItems.Add(shoppingCartItem);
-            }
-            else
-            {
-                shoppingCartItem.Amount++;
-            }
-            _context.SaveChanges();
-        }
-*/
+                 _context.ShoppingCartItems.Add(shoppingCartItem);
+             }
+             else
+             {
+                 shoppingCartItem.Amount++;
+             }
+             _context.SaveChanges();
+         }
+ */
     }
 }

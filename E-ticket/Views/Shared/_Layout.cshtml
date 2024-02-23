@@ -5,12 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - E_ticket</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="path/to/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/E_ticket.styles.css" asp-append-version="true" />
-  
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   
+  
 </head>
+   
 <body style="background-color:black"> 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow" style="background-color:black;">
@@ -42,8 +48,22 @@
                  
 
                 </div>
+         
+
+               
+
                 <partial name="_LoginPartial" style="color:white;" />
+
+                <a asp-controller="Orders" asp-action="AddItemToShoppingCart" style="color: white; text-decoration: none; position: relative; margin-left:10px;">
+                    <i class="bi bi-cart cart-icon" style="font-size: 1.5rem; color: white;"></i>
+                    <span id="cartItemCount" style="color: orange; font-weight: bold; position: absolute; top: -8px; right: -8px; border-radius: 50%; padding: 4px 8px;"></span>
+                </a>
+              
             </div>
+          
+
+
+
         </nav>
     </header>
 
@@ -59,10 +79,47 @@
             &copy; 2024 - E_ticket
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  @*   <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-  
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    *@
+
+ 
+    <!-- Your existing script tags -->
+
+@*     <script>
+        // Update cart items count dynamically
+        function updateCartItemCount() {
+            $.ajax({
+                url: '/Orders/GetCartItemsCount',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function (count) {
+                    console.log('Count:', count); // Add this line to log the count
+                    var cartItemCountElement = $('#cartItemCount');
+                    if (count > 0) {
+                        cartItemCountElement.text(count);
+                        cartItemCountElement.css('display', 'inline');
+                    } else {
+                        cartItemCountElement.css('display', 'none');
+                    }
+                },
+                error: function () {
+                    console.error('Error updating cart items count.');
+                }
+            });
+        }
+
+        // Call the function on page load
+        $(document).ready(function () {
+            updateCartItemCount();
+        });
+    </script>
+ *@
+    <!-- Your existing script tags -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

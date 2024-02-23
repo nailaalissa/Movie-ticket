@@ -1,4 +1,5 @@
 ﻿using E_ticket.Data.Cart;
+using E_ticket.Data.ViewModeles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_ticket.Data.ViewComponents
@@ -17,5 +18,6 @@ namespace E_ticket.Data.ViewComponents
 
             return View(items.Count);
         }
+
     }
 }

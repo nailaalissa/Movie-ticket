@@ -43,6 +43,13 @@
 </style>
 
 <h1 style="color:#F5821E;"> Welcome to Cinemas View</h1>
+@if ( User.IsInRole("Administrator"))
+{
+    <div style="right:60px;" class="text-white">
+        <a asp-controller="Movies" asp-action="Create" class="btn btn-success"><i class="bg-info bi-plus-circle"></i>Add New</a>
+
+    </div>
+}
 <form class="form-inline" asp-controller="Movies" asp-action="Filter" style="margin:1rem;">
     <div class="input-group" style="width:70%;">
         <input name="searchString" type="text" class="form-control" placeholder="Search for a movie..." aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -101,13 +108,65 @@
                                 <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
                                 <i class="bi bi-eye-fill"></i> Details
                             </a>
+                          @* 
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                {
+                                    <a class="btn btn-success"
+                                       asp-controller="Orders"
+                                       asp-action="AddItemToShoppingCart"
+                                       asp-route-id="@item.Id">
+                                        @item.Price.ToString("c")  <i class="bi bi-cart-plus" style="margin-left:10px;"> </i>
+                                    </a>
+                                }
+                                else if (DateTime.Now > item.EndDate)
+                                {
+                                    <a class="btn btn-success" disabled style="background-color: orange">
+                                        @item.Price.ToString("c")  <i class="bi bi-cart-plus" style="margin-left:10px;"> </i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success"
+                                       asp-controller="Orders"
+                                       asp-action="AddItemToShoppingCart"
+                                       asp-route-id="@item.Id">
+                                        @item.Price.ToString("c")  <i class="bi bi-cart-plus" style="margin-left:10px;"> </i>
+                                    </a>
+                                }
+ *@
+                                <!-- ... (other code) ... -->
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                {
+                                    <a class="btn btn-success"
+                                       asp-controller="Orders"
+                                       asp-action="AddItemToShoppingCart"
+                                       asp-route-id="@item.Id"
+                                       onclick="addToCartAndUpdateCount('@item.Id')"
+                                       style="cursor: pointer;">
+                                        @item.Price.ToString("c")  <i class="bi bi-cart-plus" style="margin-left:10px;"> </i>
+                                    </a>
+                                }
+                                else if (DateTime.Now > item.EndDate)
+                                {
+                                    <a class="btn btn-success" disabled style="color:black; color:orange;">
+                                        @item.Price.ToString("c")  <i class="bi bi-cart-plus" style="margin-left:10px;"> </i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success"
+                                       asp-controller="Orders"
+                                       asp-action="AddItemToShoppingCart"
+                                       asp-route-id="@item.Id"
+                                       onclick="addToCartAndUpdateCount('@item.Id')"
+                                       style="cursor: pointer;">
+                                        @item.Price.ToString("c")  <i class="bi bi-cart-plus" style="margin-left:10px;"> </i>
+                                    </a>
+                                }
 
-                                <a class="btn btn-success"
-                               asp-controller="Orders"
-                               asp-action="AddItemToShoppingCart"
-                               asp-route-id="@item.Id" >
-                                <i class="bi bi-cart-plus"></i> @item.Price.ToString("c")
-                            </a>
+                                <!-- ... (other code) ... -->
+
+                             
                         </p>
                     </div>
                 </div>
@@ -119,3 +178,40 @@
     }
 </div>
 
+<!-- Include this script in your HTML -->
+<script>
+    function addToCartAndUpdateCount(movieId) {
+        // Make an AJAX request to add the movie to the cart
+        $.ajax({
+            url: `/Orders/AddItemToShoppingCart/${movieId}`,
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest' // This header indicates an AJAX request
+            },
+            success: function () {
+                // If the response is successful, update the cart count
+                updateCartItemCount();
+            },
+            error: function () {
+                console.error('Failed to add movie to cart.');
+            }
+        });
+    }
+
+    function updateCartItemCount() {
+        // Update cart items count dynamically
+        $.ajax({
+            url: '/Orders/GetCartItemsCount',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest' // This header indicates an AJAX request
+            },
+            success: function (count) {
+                // Display the count only if it's greater than zero
+                document.getElementById('cartItemCount').innerText = count > 0 ? count : '';
+            },
+            error: function () {
+                console.error('Error updating cart items count.');
+            }
+        });
+    }
+</script>

@@ -77,5 +77,18 @@ namespace E_ticket.Controllers
 
             return View("OrderCompleted");
         }
+        /* public IActionResult GetCartItemsCount()
+         {
+             var cartItemsCount = _shoppingCart.GetShoppingCartItems();
+             return Json(cartItemsCount);
+         }*/
+        public IActionResult GetCartItemsCount()
+        {
+            var cartItems = _shoppingCart.GetShoppingCartItems();
+            var cartItemsCount = cartItems.Count; // Use the Count property to get the number of items
+            return Json(cartItemsCount);
+        }
+
+
     }
 }

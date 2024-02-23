@@ -5,8 +5,8 @@
 }
 
 
-<div class="container mt-3">
-    <div class="card mb-12" >
+<div class="container mt-3" style="color: #F5821E; border: 2px solid  #F5821E;padding:1rem;">
+    <div class="card mb-12">
         <div class="card-header" style="background-color: #F5821E;">
             <h5 class="card-title">@Model.Name</h5>
         </div>
@@ -22,6 +22,7 @@
                     <p class="card-text"><b>Category: </b>@Model.MovieCategory</p>
                     <p class="card-text"><b>Start Date: </b>@Model.StartDate.ToString("dd MMM yy")</p>
                     <p class="card-text"><b>End Date: </b>@Model.EndDate.ToString("dd MMM yy")</p>
+                    <p class="card-text"> <b> Price : @Model.Price.ToString("c")</p>
                     <b>Status: </b>
                     @if (DateTime.Now >= Model.StartDate && DateTime.Now <= Model.EndDate)
                     {
@@ -55,9 +56,11 @@
         <div class="card-footer">
             <p class="card-text">
                 <a class="btn btn-outline-primary float-right" href="@Url.Action("Index", "Movies")" >Back to List</a>
-                <a class="btn btn-success @((DateTime.Now > Model.EndDate) ? "disabled" : "")"
-                   href="@Url.Action("AddToCart", "ShoppingCart", new { movieId = Model.Id })" >
-                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))
+                <a class="btn btn-success"
+                   asp-controller="Orders"
+                   asp-action="AddItemToShoppingCart"
+                   asp-route-id="@Model.Id">
+                    Add To Cart
                 </a>
             </p>
         </div>
