@@ -14,3 +14,4 @@ Technologies Used
 Frontend: HTML, CSS, JavaScript, Razor Views
 Backend: ASP.NET MVC, C#
 Database: Entity Framework (Code First)
+![image](https://github.com/nailaalissa/Movie-ticket/assets/132508789/c3b23417-f264-401d-8824-fbfaa22552eb)
